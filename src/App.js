@@ -5,6 +5,7 @@ import {HashRouter, Switch, Route} from "react-router-dom"
 import { Provider } from 'react-redux'
 import renderRouters from "./util/renderRouter"
 import store from "./store/index"
+import {Data} from "./application/Singers/data"
 function App(props) {
   return (
     <div className="App">
@@ -13,9 +14,9 @@ function App(props) {
           <GlobalStyle></GlobalStyle>
           <IconStyle></IconStyle>
           <Switch>
-            {
-                renderRouters(routers)
-            }
+            <Data>
+              {renderRouters(routers)}
+            </Data>
           </Switch>
         </HashRouter>
       </Provider>

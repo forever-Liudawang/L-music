@@ -1,4 +1,4 @@
-import React,{useState,useEffect, memo} from 'react'
+import React,{useState,useEffect, memo,useContext} from 'react'
 import Horizen from "../../baseUI/Horizen"
 import {NavContainer,ListContainer,EnterLoading} from "./style"
 import SingerList from "./SingerList"
@@ -167,7 +167,6 @@ export const alphaTypes = [{
     name: "Z"
 }
 ];
-
 
 function Singers() {
     let [category, setCategory] = useState(-1);
