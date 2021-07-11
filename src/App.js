@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import renderRouters from "./util/renderRouter"
 import store from "./store/index"
 import {Data} from "./application/Singers/data"
+
 function App(props) {
   return (
     <div className="App">
