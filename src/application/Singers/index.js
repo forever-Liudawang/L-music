@@ -15,6 +15,7 @@ import {getHotSingerList,
       getMoreSingerList,
       changePullUpLoading} from "./store/actionCreators"
 import Loading from '../../baseUI/loading2/index';
+import {CategoryDataContext,CHANGE_ALPHA,CHANGE_AREA,CHANGE_CATEGORY} from "./data"
 // 歌手种类
 export const categoryTypes = [
   {
@@ -169,45 +170,44 @@ export const alphaTypes = [{
 ];
 
 function Singers() {
-    let [category, setCategory] = useState(-1);
-    let [alpha, setAlpha] = useState('');
-    const [area, setArea] = useState(-1)
     const singerList = toJs(useSelector(state=>{return state.getIn(["singer","singerList"])}))
     const pageCount = toJs(useSelector(state=>{return state.getIn(["singer","pageCount"])}))
     const enterLoading = toJs(useSelector(state=>{return state.getIn(["singer","enterLoading"])}))
     const pullUpLoading = toJs(useSelector(state=>{return state.getIn(["singer","pullUpLoading"])}))
     const pullDownLoading = toJs(useSelector(state=>{return state.getIn(["singer","pullDownLoading"])}))
-    const dispatch = useDispatch()
+    const {data,dispatch} = useContext(CategoryDataContext);
+    const {category,alpha,area} = toJs(data);
+    const dispatchI = useDispatch()
     /**
      * 上拉加载
      */
     const handlePullUp = ()=>{
-      dispatch(changePageCount(pageCount + 1))
-      dispatch(changePullUpLoading(true))
+      dispatchI(changePageCount(pageCount + 1))
+      dispatchI(changePullUpLoading(true))
       if(category != -1 || alpha != '' || area != -1){
-        dispatch(getMoreSingerList(category,alpha,area))
+        dispatchI(getMoreSingerList(category,alpha,area))
       }else{
-        dispatch(refreshMoreHotSingerList())
+        dispatchI(refreshMoreHotSingerList())
       }
     }
     const handleGetSingerByCate = (category,area,alpha)=>{
-        dispatch(changeEnterLoading(true))
-        dispatch(getSingerList(category,area,alpha))
+        dispatchI(changeEnterLoading(true))
+        dispatchI(getSingerList(category,area,alpha))
     }
     useEffect(() => {
-        dispatch(getHotSingerList())
+        dispatchI(getHotSingerList())
     },[])
 
     let handleUpdateAlpha = (val) => {
-        setAlpha (val);
+        dispatch({type:CHANGE_ALPHA,data:val})
         handleGetSingerByCate(category,val,area)
     }
     let handleUpdateCatetory = (val) => {
-        setCategory (val);
+        dispatch({type:CHANGE_CATEGORY,data:val})
         handleGetSingerByCate(val,alpha,area)
     }
     const handleUpdateArea = (val)=>{
-        setArea(val)
+        dispatch({type:CHANGE_AREA,data:val})
         handleGetSingerByCate(category,alpha,val)
     }
     return (

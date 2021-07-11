@@ -8,7 +8,8 @@ import {getBannerList,getRecommendList} from "./store/actionCreators"
 import toJs from "../../util/dataToJs"
 import {forceCheck} from "react-lazyload"
 import Loading from "../../baseUI/loading"
-function Recommend() {
+import renderRouters from '../../util/renderRouter'
+function Recommend(props) {
     const bannerList = toJs(useSelector(state=>state.getIn(["recommend","bannerList"])))
     const recommendList = toJs(useSelector(state=>state.getIn(["recommend","recommendList"])))
     const enterLoading =useSelector(state=>state.getIn(["recommend","enterLoading"]))
@@ -30,6 +31,7 @@ function Recommend() {
                     </div>
                 </Scroll>
                 {enterLoading && <Loading/>}
+                {renderRouters(props.routes)}
             </Content>
     )
 }
