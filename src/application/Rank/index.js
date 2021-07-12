@@ -2,32 +2,35 @@ import React,{useEffect, memo}from 'react'
 import Scroll from "../../baseUI/scroll"
 import {useDispatch,useSelector} from "react-redux"
 import toJs from "../../util/dataToJs"
-import {forceCheck} from "react-lazyload"
 import Loading from "../../baseUI/loading"
 import { getRankList } from "./store/index"
 import {Container,SongList,List,ListItem} from "./style"
-
-const renderRankList = (list=[], global) => {
+import renderRouters from '../../util/renderRouter'
+import {withRouter} from "react-router-dom"
+const RenderRankList = (props) => {
+    const {rank,routerProps,global} = props
+    const enterDetail = (detail) => {
+      routerProps.history.push (`/rank/${detail.id}`)
+    }
     return (
       <List globalRank={global}>
         {
-        list.map ((item) => {
-          return (
-            <ListItem key={item.coverImgId} tracks={item.tracks}>
-              <div className="img_wrapper">
-                <img src={item.coverImgUrl} alt=""/>
-                <div className="decorate"></div>
-                <span className="update_frequecy">{item.updateFrequency}</span>
-              </div>
-              { renderSongList (item.tracks)  }
-            </ListItem>
-          )
-        })
-      } 
+          rank && rank.map ((item) => {
+            return (
+              <ListItem key={item.coverImgId} tracks={item.tracks} onClick={()=>enterDetail(item)}>
+                <div className="img_wrapper">
+                  <img src={item.coverImgUrl} alt=""/>
+                  <div className="decorate"></div>
+                  <span className="update_frequecy">{item.updateFrequency}</span>
+                </div>
+                {renderSongList(item.tracks)}
+              </ListItem>
+            )
+          })
+        } 
       </List>
     )
 }
-
 const renderSongList = (list=[]) => {
     return list.length ? (
       <SongList>
@@ -39,8 +42,7 @@ const renderSongList = (list=[]) => {
       </SongList>
     ) : null;
 }
-
-function Rank() {
+function Rank(props) {
     const {officialRank,globalRank} = toJs(useSelector(state=>state.getIn(["rank","rankList"])))
     const loading = toJs(useSelector(state=>state.getIn(["rank","loading"])))
     const dispatch = useDispatch()
@@ -54,14 +56,17 @@ function Rank() {
     return (
         <Container>
             <Scroll>
-            <div>
-                <h1 className="offical" style={displayStyle}> 官方榜 </h1>
-                    { renderRankList (officialRank) }
-                <h1 className="global" style={displayStyle}> 全球榜 </h1>
-                    { renderRankList (globalRank, true) }
-                { loading ? <Loading></Loading>: null }
-            </div>
+              <div>
+                  <h1 className="offical" style={displayStyle}> 官方榜 </h1>
+                      {/* { renderRankList(officialRank) } */}
+                      <RenderRankList rank={officialRank} routerProps={props}/>
+                  <h1 className="global" style={displayStyle}> 全球榜 </h1>
+                      {/* { renderRankList(globalRank, true) } */}
+                      <RenderRankList rank={globalRank} routerProps={props} global={true}/>
+                  { loading ? <Loading></Loading>: null }
+              </div>
             </Scroll> 
+            {renderRouters(props.routes)}
         </Container>
     )
 }

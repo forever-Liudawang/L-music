@@ -2,12 +2,16 @@ import React,{memo}from 'react'
 import {List,ListItem} from "./style"
 import  LazyLoad, {forceCheck} from 'react-lazyload';
 function SingerList(props) {
-    const {singerList = []} = props
+    console.log(props,"props==>>>")
+    const {singerList = [],routerProps} = props
+    const enterDetail = (id)  => {
+        routerProps.history.push (`/singers/${id}`);
+    };
     return (
         <List>
             {
                 singerList.map((item,index)=>{
-                    return  <ListItem key={item.accountId+""+index}>
+                    return  <ListItem key={item.accountId+""+index} onClick={()=>enterDetail(item.id)}>
                                 <div className="img_wrapper">
                                     <LazyLoad placeholder={<img width="100%" height="100%" src={require('./singer.png').default} alt="music"/>}>
                                         <img src={`${item.picUrl}?param=300x300`} width="100%" height="100%" alt="music"/>

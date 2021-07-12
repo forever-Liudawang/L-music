@@ -1,6 +1,6 @@
 import React,{useState,useEffect, memo,useContext} from 'react'
 import Horizen from "../../baseUI/Horizen"
-import {NavContainer,ListContainer,EnterLoading} from "./style"
+import {NavContainer,ListContainer,EnterLoading,SingerWraper} from "./style"
 import SingerList from "./SingerList"
 import Scroll from '../../baseUI/scroll';
 import toJs from "../../util/dataToJs"
@@ -16,6 +16,7 @@ import {getHotSingerList,
       changePullUpLoading} from "./store/actionCreators"
 import Loading from '../../baseUI/loading2/index';
 import {CategoryDataContext,CHANGE_ALPHA,CHANGE_AREA,CHANGE_CATEGORY} from "./data"
+import renderRouters from '../../util/renderRouter'
 // 歌手种类
 export const categoryTypes = [
   {
@@ -169,7 +170,7 @@ export const alphaTypes = [{
 }
 ];
 
-function Singers() {
+function Singers(props) {
     const singerList = toJs(useSelector(state=>{return state.getIn(["singer","singerList"])}))
     const pageCount = toJs(useSelector(state=>{return state.getIn(["singer","pageCount"])}))
     const enterLoading = toJs(useSelector(state=>{return state.getIn(["singer","enterLoading"])}))
@@ -211,19 +212,22 @@ function Singers() {
         handleGetSingerByCate(category,alpha,val)
     }
     return (
-      <>
-        <NavContainer>
-            <Horizen list={categoryTypes} oldVal={category} title={"分类 (默认热门):"} handleClick={handleUpdateCatetory}></Horizen>
-            <Horizen list={alphaTypes} oldVal={alpha} title={"首字母:"} handleClick={handleUpdateAlpha}></Horizen>
-            <Horizen list={singerArea} oldVal={area} title={"地区:"} handleClick={handleUpdateArea}></Horizen>
-        </NavContainer>
-        <ListContainer>
-          <Scroll pullUp={handlePullUp} onScroll={forceCheck}  pullUpLoading={pullUpLoading} PullDownLoading={pullDownLoading}>
-            <SingerList singerList={singerList}/>
-          </Scroll>
-        </ListContainer>
+      <SingerWraper>
+        <div>
+          <NavContainer>
+              <Horizen list={categoryTypes} oldVal={category} title={"分类 (默认热门):"} handleClick={handleUpdateCatetory}></Horizen>
+              <Horizen list={alphaTypes} oldVal={alpha} title={"首字母:"} handleClick={handleUpdateAlpha}></Horizen>
+              <Horizen list={singerArea} oldVal={area} title={"地区:"} handleClick={handleUpdateArea}></Horizen>
+          </NavContainer>
+          <ListContainer>
+            <Scroll pullUp={handlePullUp} onScroll={forceCheck}  pullUpLoading={pullUpLoading} PullDownLoading={pullDownLoading}>
+              <SingerList singerList={singerList} routerProps={props}/>
+            </Scroll>
+          </ListContainer>
+        </div>
         { enterLoading ? <EnterLoading><Loading></Loading></EnterLoading> : null}
-      </>
+        { renderRouters(props.routes)}
+      </SingerWraper>
     )
 }
 export default  memo(Singers)

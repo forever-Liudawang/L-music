@@ -15,7 +15,6 @@ const getCount = (num)=>{
 }
 function SongListBox(props) {
     const {currentAlbum} = props
-    console.log(currentAlbum)
     return (
         <SongList showBackground={true}>
             <div className="first_line">

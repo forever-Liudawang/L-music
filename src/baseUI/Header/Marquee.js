@@ -21,7 +21,7 @@ const Container = styled.div`
     white-space: nowrap;
     .text {
         position: absolute;
-        animation: marquee 10s linear infinite;
+        animation: marquee 12s linear infinite;
         @keyframes marquee {
             from {
                 left: 100%;
