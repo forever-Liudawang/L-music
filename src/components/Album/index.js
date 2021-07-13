@@ -3,7 +3,7 @@ import {Container,TopDesc,Menu} from "./style"
 import {CSSTransition} from "react-transition-group"
 import Header from '../../baseUI/Header';
 import Scroll from '../../baseUI/scroll';
-import SongList from './SongList';
+import SongList from '../SongList';
 import style from '../../assets/global-style';
 import {getAlbumList} from "./store"
 import {useDispatch,useSelector} from "react-redux"
