@@ -27,15 +27,23 @@ export const Container = styled.div`
         transform: rotateZ(30deg) translate3d(100%, 0, 0);
     }
 `
+export const ListContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top:44%;
+`
 export const ImgWrapper = styled.div`
-  height: 45%;
+  min-height: 45%;
   width: 100%;
   background: url(${props => props.bgUrl});
   background-size: cover;
 `
 export const Collection = styled.div`
   position: absolute;
+  top:-55px;
   left: 50%;
+  z-index:100;
   transform: translateX(-50%);
   height: 40px;
   line-height: 40px;
@@ -47,7 +55,4 @@ export const Collection = styled.div`
   align-items: center;
   color: #fff;
   font-size: 14px;
-`
-export const ListContainer = styled.div`
-  position: relative;
 `

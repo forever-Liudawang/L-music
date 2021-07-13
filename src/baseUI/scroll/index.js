@@ -79,7 +79,6 @@ const Scroll = forwardRef((props,ref)=>{
     useEffect(() => {
         if (!bScroll || !pullDown) return;
         const handlePullDown = (pos) => {
-            console.log(`pullDown`, pullDown)
             //判断用户的下拉动作
             if(pos.y > 50) {
                 pullDown();

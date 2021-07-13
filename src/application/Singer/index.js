@@ -8557,9 +8557,10 @@ const list = {
 function Singer(props) {
     const [showStatus, setShowStatus] = useState (true);
     const headerRef = useRef()
+    const handlePullDown = (pos)=>{
+    }
     const handleBack=()=>{
       setShowStatus(false)
-      console.log(showStatus,"showStatus")
     }
     return (
         <CSSTransition
@@ -8573,11 +8574,11 @@ function Singer(props) {
             <Container>
               <Header ref={headerRef} handleClick={handleBack}/>
               <ImgWrapper bgUrl={artist.picUrl}></ImgWrapper>
-              <Scroll>
+              <Scroll pullDown={handlePullDown}>
                   <ListContainer>
                     <Collection>
                       <i className="iconfont">&#xe62d;</i>
-                      &nbsp;
+                        &nbsp;
                       <span className="text"> 收藏 </span>
                     </Collection>
                     <SongList currentAlbum={list} />
