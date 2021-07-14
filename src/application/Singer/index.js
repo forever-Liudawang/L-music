@@ -18,14 +18,27 @@ function Singer(props) {
     const headerRef = useRef()
     const imgRef = useRef()
     const maskRef = useRef()
+    const collRef = useRef()
     let imgHeight = null;
+    let imgWidth = null;
+    const imgDom = imgRef.current;
+    const collDom = collRef.current;
+    const headerDom = headerRef.current;
+    const maskDom = maskRef.current;
     const handleScroll = (pos)=>{
-      const imgDom = imgRef.current;
       if(!imgHeight){
         imgHeight = Math.floor(getComputedStyle(imgDom,null).height.replace("px",""))
+        imgWidth = Math.floor(getComputedStyle(imgDom,null).width.replace("px",""))
       }
-      imgDom.style.height = imgHeight + pos.y +'px'
-      console.log(pos,"pos====>>>")
+      const  y = pos.y;
+      const percent = Math.abs(y/imgHeight)
+      if(y>0){
+        // imgDom.style.transform = `scale(${1+percent})`
+        imgDom.style.height = imgHeight + y + 'px'
+        imgDom.style.imgWidth = imgHeight + y + 'px'
+      }else{
+        collDom.style["opacity"] = `${1 - percent * 2}`;
+      }
     }
     const handleBack = ()=>{
       setShowStatus(false)
@@ -45,13 +58,12 @@ function Singer(props) {
           <>
             <Container>
               <Header ref={headerRef} handleClick={handleBack}/>
-              <ImgWrapper 
-                bgUrl={artist.picUrl} 
-                ref={imgRef}></ImgWrapper>
-              <MaskBox ref={maskRef}/>
+              <ImgWrapper bgUrl={artist.picUrl} ref={imgRef}>
+                  <div className="filter"></div>
+              </ImgWrapper>
                   <Scroll onScroll={handleScroll}>
                       <ListContainer>
-                        <Collection>
+                        <Collection ref={collRef}>
                           <i className="iconfont">&#xe62d;</i>
                             &nbsp;
                           <span className="text">收藏</span>

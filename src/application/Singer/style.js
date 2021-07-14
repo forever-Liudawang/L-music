@@ -41,6 +41,15 @@ export const ImgWrapper = styled.div`
   background-size: cover;
   top: 40px;
   z-index:11;
+  .filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* : blur(20px); */
+    background: rgba(7, 17, 27, 0.3);
+  }
 `
 export const Collection = styled.div`
   position: absolute;
@@ -61,7 +70,7 @@ export const Collection = styled.div`
 `
 export const MaskBox = styled.div`
   width: 100%;
-  opacity: 1;
+  opacity: 0;
   background: #ccc;
   height: 40px;
   position: fixed;

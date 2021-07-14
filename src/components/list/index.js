@@ -14,7 +14,7 @@ function RecommendList(props) {
         props.history.push (`/recommend/${id}`)
     }
     return (
-        <div>
+        <div style={{padding:"0 10px"}}>
             <Title>推荐歌单</Title>
             <ListWrapper>
                 {
