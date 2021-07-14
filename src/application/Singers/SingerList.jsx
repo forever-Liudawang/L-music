@@ -2,7 +2,6 @@ import React,{memo}from 'react'
 import {List,ListItem} from "./style"
 import  LazyLoad, {forceCheck} from 'react-lazyload';
 function SingerList(props) {
-    console.log(props,"props==>>>")
     const {singerList = [],routerProps} = props
     const enterDetail = (id)  => {
         routerProps.history.push (`/singers/${id}`);

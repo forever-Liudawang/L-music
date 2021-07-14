@@ -32,12 +32,15 @@ export const ListContainer = styled.div`
   width: 100%;
   left: 0;
   top:44%;
+  z-index:12;
 `
 export const ImgWrapper = styled.div`
-  min-height: 45%;
+  height: 45%;
   width: 100%;
   background: url(${props => props.bgUrl});
   background-size: cover;
+  top: 40px;
+  z-index:11;
 `
 export const Collection = styled.div`
   position: absolute;
@@ -55,4 +58,14 @@ export const Collection = styled.div`
   align-items: center;
   color: #fff;
   font-size: 14px;
+`
+export const MaskBox = styled.div`
+  width: 100%;
+  opacity: 1;
+  background: #ccc;
+  height: 40px;
+  position: fixed;
+  top: 0;
+  z-index:120;
+  /* display: none; */
 `
