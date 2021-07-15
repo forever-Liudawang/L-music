@@ -10,8 +10,15 @@ axiosInstance.interceptors.response.use (
       console.log (err, "网络错误");
       Promise.reject(err)
     }
-  );
+);
   
+// 播放模式
+export const playMode = {
+  sequence: 0,
+  loop: 1,
+  random: 2
+};
+
 export {
     axiosInstance
 };

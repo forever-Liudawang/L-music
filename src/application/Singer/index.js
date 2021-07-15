@@ -25,7 +25,6 @@ function Singer(props) {
         imgHeight = Math.floor(getComputedStyle(imgDom,null).height.replace("px",""))
       }
       imgDom.style.height = imgHeight + pos.y +'px'
-      console.log(pos,"pos====>>>")
     }
     const handleBack = ()=>{
       setShowStatus(false)
