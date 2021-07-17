@@ -39,6 +39,7 @@ function Singer(props) {
       }else{
         collDom.style["opacity"] = `${1 - percent * 2}`;
       }
+      imgDom.style.height = imgHeight + pos.y +'px'
     }
     const handleBack = ()=>{
       setShowStatus(false)

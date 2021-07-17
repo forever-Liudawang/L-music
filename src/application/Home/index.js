@@ -7,8 +7,7 @@ import {
   TabItem,
 } from './style';
 import { NavLink } from 'react-router-dom';
-import Player from '../Player/index';
-
+import Player from '../Player';
 function Home(props){
     const { route } = props;
     return (
@@ -24,7 +23,7 @@ function Home(props){
           <NavLink to="/rank" activeClassName="selected"><TabItem><span>排行榜</span></TabItem></NavLink>
         </Tab>
         { renderRoutes(props.routes) }
-        {/* <Player></Player> */}
+        <Player></Player>
       </div>
     );
 }
