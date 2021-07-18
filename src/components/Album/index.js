@@ -10,6 +10,7 @@ import {useDispatch,useSelector} from "react-redux"
 import toJs from "../../util/dataToJs"
 import Loading from '../../baseUI/loading2';
 import {changeCurrentAlbum} from "./store"
+import MusicNote from "../../baseUI/MusicNote"
 function Album(props) {
     const [showStatus, setShowStatus] = useState (true);
     const [isMarquee, setIsMarquee] = useState(false)
@@ -17,6 +18,7 @@ function Album(props) {
     const enterLoading = toJs(useSelector(state=>{return state.getIn(["album","enterLoading"])}))
     const {id} = props && props.match.params
     const headerEl = useRef();
+    const musicNoteRef = useRef()
     const dispatch = useDispatch();
     const handleBack = useCallback(()=>{
       //onExited={props.history.goBack} 退出动画执行结束时跳转路由。
@@ -38,6 +40,9 @@ function Album(props) {
           setIsMarquee(false);
       }
     })
+    const musicAnimation = (x, y) => {
+        musicNoteRef.current.startAnimation({ x, y });
+    };
     useEffect(() => {
       dispatch(getAlbumList(id))
       return ()=>{
@@ -99,9 +104,10 @@ function Album(props) {
                                     更多
                                 </div>
                             </Menu>
-                            <SongList currentAlbum={currentAlbum}/>
+                            <SongList currentAlbum={currentAlbum} musicAnimation={musicAnimation}/>
                         </div>  
                     </Scroll>
+                    <MusicNote ref={musicNoteRef}></MusicNote>
                 </>
               }
               { enterLoading ? <Loading></Loading> : null}

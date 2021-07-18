@@ -8,6 +8,7 @@ import SongList from '../../components/SongList';
 import toJs from '../../util/dataToJs';
 import Loading from "../../baseUI/loading"
 import { getSingerInfo } from "./store"
+import MusicNote from "../../baseUI/MusicNote"
 function Singer(props) {
     const {id} =props.match.params
     const [showStatus, setShowStatus] = useState(true);
@@ -19,12 +20,11 @@ function Singer(props) {
     const imgRef = useRef()
     const maskRef = useRef()
     const collRef = useRef()
+    const musicNoteRef = useRef()
     let imgHeight = null;
     let imgWidth = null;
     const imgDom = imgRef.current;
     const collDom = collRef.current;
-    const headerDom = headerRef.current;
-    const maskDom = maskRef.current;
     const handleScroll = (pos)=>{
       if(!imgHeight){
         imgHeight = Math.floor(getComputedStyle(imgDom,null).height.replace("px",""))
@@ -33,7 +33,6 @@ function Singer(props) {
       const  y = pos.y;
       const percent = Math.abs(y/imgHeight)
       if(y>0){
-        // imgDom.style.transform = `scale(${1+percent})`
         imgDom.style.height = imgHeight + y + 'px'
         imgDom.style.imgWidth = imgHeight + y + 'px'
       }else{
@@ -44,6 +43,9 @@ function Singer(props) {
     const handleBack = ()=>{
       setShowStatus(false)
     }
+    const musicAnimation = (x, y) => {
+      musicNoteRef.current.startAnimation({ x, y });
+    };
     useEffect(() => {
       dispatch(getSingerInfo(id))
     }, [])
@@ -69,9 +71,10 @@ function Singer(props) {
                             &nbsp;
                           <span className="text">收藏</span>
                         </Collection>
-                        <SongList hotSongs={songsOfArtist} />
+                        <SongList hotSongs={songsOfArtist} musicAnimation={musicAnimation} />
                       </ListContainer>
                   </Scroll>
+                  <MusicNote ref={musicNoteRef}></MusicNote>
             </Container>
             { loading ? (<Loading></Loading>) : null}
             </>

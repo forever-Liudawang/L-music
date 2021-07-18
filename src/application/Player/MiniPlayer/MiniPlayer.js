@@ -16,9 +16,9 @@ const getName = list => {
     return str;
 };
 const MiniPlayer = (props)=>{
-    const {song} = props;
+    const {song,fullScreen, playing, percent,handlePlaying} = props;
+    
     const miniPlayRef = useRef()
-    const fullScreen = toJs(useSelector(state=>state.getIn(["player","fullScreen"])))
     const dispatch = useDispatch()
     const handleChangeFull = ()=>{
         dispatch(changeFullScreen(true))
@@ -38,7 +38,7 @@ const MiniPlayer = (props)=>{
             <MiniPlayerContainer ref={miniPlayRef}>
                 <div className="icon">
                     <div className="imgWrapper" onClick={handleChangeFull}>
-                        <img className="play" src={song.al.picUrl} width="40" height="40" alt="img"/>
+                        <img className={`play ${playing?"":"pause"}`} src={song.al.picUrl} width="40" height="40" alt="img"/>
                     </div>
                 </div>
                 <div className="text">
@@ -46,8 +46,12 @@ const MiniPlayer = (props)=>{
                     <p className="desc">{getName(song.ar)}</p>
                 </div>
                 <div className="control">
-                    <ProcessCircle radius={32} percent={0.2}>
-                        <i className="icon-mini iconfont icon-pause">&#xe650;</i>
+                    <ProcessCircle radius={32} percent={percent}>
+                        { playing ? 
+                            <i className="icon-mini iconfont icon-pause" onClick={e => handlePlaying(e, false)}>&#xe650;</i>
+                            :
+                            <i className="icon-mini iconfont icon-play" onClick={e => handlePlaying(e, true)}>&#xe61e;</i> 
+                        }                    
                     </ProcessCircle>
                 </div>
                 <div className="control">

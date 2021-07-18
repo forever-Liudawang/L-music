@@ -6,13 +6,17 @@ import {
   Bottom,
   Operators,
   CDWrapper,
+  ProgressWrapper
 } from "./style";
+import ProgressBar from "../../../baseUI/ProcessBar/ProcessBar"
 import toJs from "../../../util/dataToJs"
 import { CSSTransition } from "react-transition-group";
 import { useSelector,useDispatch } from "react-redux"
 import {changeFullScreen} from "../store/action"
 import animations from "create-keyframe-animation";
 import { prefixStyle } from "../../../api/utils";
+import { formatPlayTime } from "../../../util/utilFunc"
+import { playMode } from '../../../api/config';
 // 组件代码中加入
 const transform = prefixStyle ("transform");
 const getName = list => {
@@ -24,10 +28,24 @@ const getName = list => {
     return str;
 };
 function FullPlayer(props) {
-  const {song,toggleFullScreen} =  props;
+  const {
+    song,
+    toggleFullScreen,
+    handlePlaying,
+    fullScreen,
+    playing,
+    duration, 
+    currentTime,
+    percent,
+    handleProgressChange,
+    handeleNext,
+    handlePrev,
+    changeMode,
+    mode
+  } =  props;
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
-  const fullScreen = toJs(useSelector(state=>state.getIn(["player","fullScreen"])))
+  const barRef = useRef()
   const dispatch = useDispatch()
     // 启用帧动画
   const enter = () => {
@@ -93,9 +111,18 @@ function FullPlayer(props) {
     // 不置为 none 现在全屏播放器页面还是存在
     normalPlayerRef.current.style.display = "none";
   };
-  const handleChangeFull = ()=>{
-    dispatch(changeFullScreen(false))
-  }
+  //getPlayMode方法
+  const getPlayMode = () => {
+    let content;
+    if (mode === playMode.sequence) {
+      content = "&#xe625;";
+    } else if (mode === playMode.loop) {
+      content = "&#xe653;";
+    } else {
+      content = "&#xe61b;";
+    }
+    return content;
+  };
   return (
       <CSSTransition
         classNames="normal"
@@ -118,7 +145,7 @@ function FullPlayer(props) {
             </div>
             <div className="background layer"></div>
             <Top className="top">
-              <div className="back" onClick={handleChangeFull}>
+              <div className="back" onClick={toggleFullScreen}>
                 <i className="iconfont icon-back">&#xe662;</i>
               </div>
               <h1 className="title">{song.name}</h1>
@@ -128,7 +155,7 @@ function FullPlayer(props) {
               <CDWrapper>
                 <div className="cd">
                   <img
-                    className="image play"
+                    className={`image ${playing?"play":"pause"}`}
                     src={song.al.picUrl + "?param=400x400"}
                     alt=""
                   />
@@ -136,17 +163,32 @@ function FullPlayer(props) {
               </CDWrapper>
             </Middle>
             <Bottom className="bottom">
-              <Operators>
-                <div className="icon i-left" >
-                  <i className="iconfont">&#xe625;</i>
+              <ProgressWrapper>
+                <span className="time time-l">{formatPlayTime(currentTime)}</span>
+                <div className="progress-bar-wrapper">
+                  <ProgressBar percent={percent} percentChange={handleProgressChange}>
+                  </ProgressBar>
                 </div>
-                <div className="icon i-left">
+                <div className="time time-r">{formatPlayTime(duration)}</div>
+              </ProgressWrapper>
+              <Operators>
+                <div className="icon i-left" onClick={changeMode}>
+                  <i
+                    className="iconfont"
+                    dangerouslySetInnerHTML={{ __html: getPlayMode() }}
+                  ></i>
+                </div>
+                <div className="icon i-left" onClick={handlePrev}>
                   <i className="iconfont">&#xe6e1;</i>
                 </div>
                 <div className="icon i-center">
-                  <i className="iconfont">&#xe723;</i>
+                    { playing ? 
+                        <i className="icon-mini iconfont icon-pause" onClick={e => handlePlaying(e, false)}>&#xe650;</i>
+                        :
+                        <i className="icon-mini iconfont icon-play" onClick={e => handlePlaying(e, true)}>&#xe61e;</i> 
+                    }
                 </div>
-                <div className="icon i-right">
+                <div className="icon i-right" onClick={handeleNext}>
                   <i className="iconfont">&#xe718;</i>
                 </div>
                 <div className="icon i-right">
