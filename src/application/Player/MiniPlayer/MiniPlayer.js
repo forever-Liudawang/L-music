@@ -16,12 +16,16 @@ const getName = list => {
     return str;
 };
 const MiniPlayer = (props)=>{
-    const {song,fullScreen, playing, percent,handlePlaying} = props;
+    const {song,fullScreen, playing, percent,handlePlaying,handlePlayList} = props;
     
     const miniPlayRef = useRef()
     const dispatch = useDispatch()
     const handleChangeFull = ()=>{
         dispatch(changeFullScreen(true))
+    }
+    const handleShowPlayList = (e)=>{
+        handlePlayList(true)
+        e.stopPropagation()
     }
     return (
         <CSSTransition
@@ -54,7 +58,7 @@ const MiniPlayer = (props)=>{
                         }                    
                     </ProcessCircle>
                 </div>
-                <div className="control">
+                <div className="control" onClick={handleShowPlayList}>
                     <i className="iconfont">&#xe640;</i>
                 </div>
             </MiniPlayerContainer>

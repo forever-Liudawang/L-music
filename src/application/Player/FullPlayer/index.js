@@ -10,8 +10,8 @@ import {
 } from "./style";
 import ProgressBar from "../../../baseUI/ProcessBar/ProcessBar"
 import toJs from "../../../util/dataToJs"
-import { CSSTransition } from "react-transition-group";
-import { useSelector,useDispatch } from "react-redux"
+import {CSSTransition } from "react-transition-group";
+import {useSelector,useDispatch } from "react-redux"
 import {changeFullScreen} from "../store/action"
 import animations from "create-keyframe-animation";
 import { prefixStyle } from "../../../api/utils";

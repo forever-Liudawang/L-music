@@ -13,6 +13,7 @@ function Recommend(props) {
     const bannerList = toJs(useSelector(state=>state.getIn(["recommend","bannerList"])))
     const recommendList = toJs(useSelector(state=>state.getIn(["recommend","recommendList"])))
     const enterLoading =useSelector(state=>state.getIn(["recommend","enterLoading"]))
+    const songsCount = useSelector(state=>state.getIn(["player","playList"]).size)
     const dispatch = useDispatch()
     useEffect(() => {
         if(!bannerList.length){
@@ -23,7 +24,7 @@ function Recommend(props) {
         }
     },[])
     return (
-            <Content>
+            <Content songsCount={songsCount}>
                 <Scroll className="list" onScroll={forceCheck} >
                     <div>
                         <Slider bannerList={bannerList}></Slider>

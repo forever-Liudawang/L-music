@@ -4,6 +4,6 @@ export const Content = styled.div`
     top: 94px;
     left: 0;
     /* padding:0 10px; */
-    bottom: ${props => props.play > 0?"60px": 0};
+    bottom: ${props => props.songsCount > 0 ? "60px": 0};
     width: 100%;
 `
