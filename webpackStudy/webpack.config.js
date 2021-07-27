@@ -4,7 +4,8 @@ module.exports = {
     mode:"development",
     // entry:path.resolve(__dirname,"src/index.js"),
     output:{
-        filename:"bundle[hash:5].js"
+        filename:"bundle[hash:5].js",
+        path: path.resolve(__dirname,"./build")
     },
     devtool:"source-map",
     module:{
